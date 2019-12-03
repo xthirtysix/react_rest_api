@@ -31,12 +31,10 @@ export default class openDndService {
 
   async getAllSpells() {
     const res = await this.getResource(`/spells/`);
-    return res.results;
+    return res.results.map((el) => el.slug);
   };
 
   getSpell(name) {
     return this.getResource(`/spells/${name.toLowerCase()}`);
   };
 };
-
-const dndApi = new openDndService();
