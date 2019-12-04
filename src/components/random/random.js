@@ -5,17 +5,7 @@ export default class Random extends Component {
   dndApi = new openDndService();
 
   state = {
-    spell: {
-      name: null,
-      level: null,
-      school: null,
-      classes: null,
-      range: null,
-      castingTime: null,
-      duration: null,
-      components: null,
-      description: null
-    }
+    spell: {}
   }
 
   spells = [
@@ -76,44 +66,39 @@ export default class Random extends Component {
     this.updateRandom();
   };
 
+  onSpellUpdate = (spell) => {
+    this.setState({ spell })
+  }
+
   updateRandom() {
-    this.dndApi.getSpell(this.spells[Math.floor(Math.random() * this.spells.length)]).then((s) => {
-      this.setState({
-        name: s.name,
-        level: s.level,
-        school: s.school,
-        classes: s.dnd_class,
-        range: s.range,
-        castingTime: s.casting_time,
-        duration: s.duration,
-        components: s.components,
-        description: s.desc
-      });
-    });
+    const randomSpellName = this.spells[Math.floor(Math.random() * this.spells.length)];
+
+    this.dndApi.getSpell(randomSpellName).then(this.onSpellUpdate);
   };
 
   render() {
+    const { spell: { name, level, school, classes, range, castingTime, duration, components, description } } = this.state;
     return (
       <section className="card mb-3">
         <div className="d-flex justify-content-between">
           <div className="card-body">
-            <h3 className="card-title">{this.state.name}</h3>
-            <p className="card-text">{this.state.level} {this.state.school} ({this.state.classes})</p>
-            <p className="card-text">Range: {this.state.range}</p>
-            <p className="card-text">Casting time: {this.state.castingTime}</p>
-            <p className="card-text">Duration: {this.state.duration}</p>
-            <p className="card-text">Components: {this.state.components}</p>
+            <h3 className="card-title">{name}</h3>
+            <p className="card-text">{level} {school} ({classes})</p>
+            <p className="card-text">Range: {range}</p>
+            <p className="card-text">Casting time: {castingTime}</p>
+            <p className="card-text">Duration: {duration}</p>
+            <p className="card-text">Components: {components}</p>
           </div>
           <div>
             <img
               className="card-img p-3"
-              src={`/img/${this.state.school}.png`}
+              src={`/img/${school}.png`}
               width="130"
               height="190"
               alt="spell school logo" />
           </div>
         </div>
-        <p className="card-text p-4">{this.state.description}</p>
+        <p className="card-text p-4">{description}</p>
       </section >
     );
   };

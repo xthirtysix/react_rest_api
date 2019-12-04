@@ -10,7 +10,11 @@ const Header = () => {
       <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
         <ul className="navbar-nav">
           <li>
-            <a className="nav-item nav-link active" href="#">Races<span className="sr-only">(current)</span></a>
+            <a
+              className="nav-item nav-link active"
+              href="#">
+              Races<span className="sr-only">(current)</span>
+            </a>
           </li>
           <li>
             <a className="nav-item nav-link" href="#">Classes</a>

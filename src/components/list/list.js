@@ -1,6 +1,8 @@
 import React from 'react';
 
-const List = ({ races, current }) => {
+const List = (props) => {
+  const { races, current, onClickRace } = props;
+
   const items = races.map((race) => {
     const capitalizedRace = race.charAt(0).toUpperCase() + race.slice(1);
     const isActive = race === current;
@@ -8,7 +10,10 @@ const List = ({ races, current }) => {
 
     return (
       <li className="nav-item" key={race}>
-        <a className={`nav-link ${cssClass}`} href="#">
+        <a
+          className={`nav-link ${cssClass}`}
+          href="#"
+          onClick={onClickRace}>
           {capitalizedRace}
         </a>
       </li>
