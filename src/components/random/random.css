@@ -1,0 +1,19 @@
+.card-img-container {
+  width: max-content;
+}
+
+.race-img {
+  float: right;
+  width: 130px;
+  height: 190px;
+  box-sizing: content-box;
+  padding-left: 1.5rem;
+}
+
+@media (max-width: 767px) {
+  .race-img {
+    display: block;
+    float: none;
+    margin: auto;
+  }
+}
