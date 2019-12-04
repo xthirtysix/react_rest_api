@@ -1,10 +1,7 @@
 .card-race {
-  min-width: 320px;
   max-width: 100%;
 }
 
 .card-race .card-description {
   display: flex;
-  min-width: 100px;
-  max-width: 980px;
 }
