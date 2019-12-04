@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import openDndService from '../../services/dndapi-service';
+import Spinner from '../spinner/spinner';
 
 export default class Random extends Component {
   dndApi = new openDndService();
 
   state = {
-    spell: {}
-  }
+    spell: {},
+    loading: true
+  };
 
   spells = [
     "acid-arrow",
@@ -67,8 +69,8 @@ export default class Random extends Component {
   };
 
   onSpellUpdate = (spell) => {
-    this.setState({ spell })
-  }
+    this.setState({ spell, loading: false })
+  };
 
   updateRandom() {
     const randomSpellName = this.spells[Math.floor(Math.random() * this.spells.length)];
@@ -77,29 +79,46 @@ export default class Random extends Component {
   };
 
   render() {
-    const { spell: { name, level, school, classes, range, castingTime, duration, components, description } } = this.state;
+    const { spell, loading } = this.state;
+
+    const content = loading ? <Spinner /> : <SpellView spell={spell} />;
+
     return (
       <section className="card mb-3">
-        <div className="d-flex justify-content-between">
-          <div className="card-body">
-            <h3 className="card-title">{name}</h3>
-            <p className="card-text">{level} {school} ({classes})</p>
-            <p className="card-text">Range: {range}</p>
-            <p className="card-text">Casting time: {castingTime}</p>
-            <p className="card-text">Duration: {duration}</p>
-            <p className="card-text">Components: {components}</p>
-          </div>
-          <div>
-            <img
-              className="card-img p-3"
-              src={`/img/${school}.png`}
-              width="130"
-              height="190"
-              alt="spell school logo" />
-          </div>
-        </div>
-        <p className="card-text p-4">{description}</p>
+        {content}
       </section >
     );
   };
+};
+
+const SpellView = ({ spell }) => {
+  const {
+    name, level, school,
+    classes, range, castingTime,
+    duration, components, description
+  } = spell;
+
+  return (
+    <React.Fragment>
+      <div className="d-flex justify-content-between">
+        <div className="card-body">
+          <h3 className="card-title">{name}</h3>
+          <p className="card-text">{level} {school} ({classes})</p>
+          <p className="card-text">Range: {range}</p>
+          <p className="card-text">Casting time: {castingTime}</p>
+          <p className="card-text">Duration: {duration}</p>
+          <p className="card-text">Components: {components}</p>
+        </div>
+        <div>
+          <img
+            className="card-img p-3"
+            src={`/img/${school}.png`}
+            width="130"
+            height="190"
+            alt="spell school logo" />
+        </div>
+      </div>
+      <p className="card-text p-4">{description}</p>
+    </React.Fragment>
+  );
 };
