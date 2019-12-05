@@ -1,0 +1,11 @@
+.error-container {
+  display: flex;
+  margin: auto;
+  flex-direction: column;
+  align-items: center;
+  max-width: 200px;
+}
+
+.error-text {
+  text-align: center;
+}
