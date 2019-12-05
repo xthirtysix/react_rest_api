@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import openDndService from '../../services/dndapi-service';
-import Spinner from '../spinner/spinner';
+import Spinner from '../spinner/';
+import ErrorMessage from '../error-message/'
 import './random.css';
 
 export default class Random extends Component {
@@ -8,7 +9,8 @@ export default class Random extends Component {
 
   state = {
     spell: {},
-    loading: true
+    loading: true,
+    error: false
   };
 
   spells = [
@@ -73,19 +75,33 @@ export default class Random extends Component {
     this.setState({ spell, loading: false })
   };
 
+  onError = (err) => {
+    this.setState({
+      loading: false,
+      error: true
+    });
+  };
+
   updateRandom() {
     const randomSpellName = this.spells[Math.floor(Math.random() * this.spells.length)];
 
-    this.dndApi.getSpell(randomSpellName).then(this.onSpellUpdate);
+    this.dndApi.getSpell(randomSpellName)
+      .then(this.onSpellUpdate)
+      .catch(this.onError);
   };
 
   render() {
-    const { spell, loading } = this.state;
+    const { spell, loading, error } = this.state;
 
-    const content = loading ? <Spinner /> : <SpellView spell={spell} />;
+    const hasData = !(loading || error);
+    const errorMessage = error ? <ErrorMessage /> : null;
+    const spinner = loading ? <Spinner /> : null;
+    const content = hasData ? <SpellView spell={spell} /> : null;
 
     return (
       <section className="card mb-3">
+        {errorMessage}
+        {spinner}
         {content}
       </section >
     );
