@@ -7,28 +7,37 @@ export default class RaceDetailes extends Component {
   dndApi = new openDndService();
 
   state = {
-    race: {},
+    race: '',
     loading: true
   };
 
-  constructor() {
-    super();
+  componentDidMount() {
     this.getRace();
   };
 
-  onRaceChange = (race) => {
-    this.setState({ race, loading: false });
-  };
+  componentDidUpdate(prevProps) {
+    if (this.props.current !== prevProps.current) {
+      this.getRace();
+    }
+  }
 
   getRace() {
-    this.dndApi.getRace('dwarf').then(this.onRaceChange);
+    const race = this.props.current.toLowerCase();
+
+    this.dndApi
+      .getRace(race)
+      .then((race) => {
+        this.setState({
+          race,
+          loading: false
+        });
+      });
   };
 
   render() {
     const { race, loading } = this.state;
-    const { current } = this.props;
 
-    const content = loading ? <Spinner /> : <RaceView race={race} current={current} />
+    const content = loading ? <Spinner /> : <RaceView race={race} />
 
     return (
       <section className="card card-race flex-grow-1 mb-3">
@@ -38,7 +47,7 @@ export default class RaceDetailes extends Component {
   };
 };
 
-const RaceView = ({ race, current }) => {
+const RaceView = ({ race }) => {
   const { name, size, speed, subraces, desc } = race;
 
   return (
@@ -47,7 +56,7 @@ const RaceView = ({ race, current }) => {
         <div>
           <img
             className="card-img"
-            src={`img/${current}.png`}
+            src={`img/${name}.png`}
             width="130"
             height="190"
             alt="Description" />
