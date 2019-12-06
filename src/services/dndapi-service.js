@@ -31,7 +31,7 @@ export default class openDndService {
     return this._changeSpell(spell);
   };
 
-  _changeSpell(spell) {
+  _changeSpell = (spell) => {
     return {
       name: spell.name,
       level: spell.level,
@@ -45,7 +45,7 @@ export default class openDndService {
     };
   };
 
-  _changeRace(race) {
+  _changeRace = (race) => {
     const subraces = race.subraces.map(el => {
       return el.name
     });

@@ -66,8 +66,7 @@ export default class Random extends Component {
     "compulsion",
   ];
 
-  constructor() {
-    super();
+  componentDidMount() {
     this.updateRandom();
   };
 
