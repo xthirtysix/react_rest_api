@@ -6,6 +6,7 @@ import RaceDetailes from "../race-detailes";
 
 export default class App extends Component {
   state = {
+    spells: [],
     races: [],
     currentRace: 'Dwarf'
   };
@@ -22,20 +23,22 @@ export default class App extends Component {
   };
 
   render() {
+    const { spells, races, currentRace } = this.state;
+
     return (
       <div className="container">
         <Header />
-        <Random />
+        <Random spells={spells} />
         <div className="d-flex justify-content-between">
           <List
             className="w-100"
-            racesList={this.state.races}
-            currentRace={this.state.currentRace}
+            racesList={races}
+            currentRace={currentRace}
             onClickRace={this.onClickRace}
             getRaces={this.getRaces} />
           <RaceDetailes
             className="flex-shrink-1"
-            current={this.state.current} />
+            current={currentRace} />
         </div>
       </div >
     );
