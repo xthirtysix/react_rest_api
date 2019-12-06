@@ -7,95 +7,23 @@ import './random.css';
 export default class Random extends Component {
   dndApi = new openDndService();
 
-  state = {
-    spell: {},
-    loading: true,
-    error: false
-  };
-
-  spells = [
-    "acid-arrow",
-    "acid-splash",
-    "aid",
-    "alarm",
-    "alter-self",
-    "animal-friendship",
-    "animal-messenger",
-    "animal-shapes",
-    "animate-dead",
-    "animate-objects",
-    "antilife-shell",
-    "antimagic-field",
-    "antipathysympathy",
-    "arcane-eye",
-    "arcane-hand",
-    "arcane-lock",
-    "arcane-sword",
-    "arcanists-magic-aura",
-    "astral-projection",
-    "augury",
-    "awaken",
-    "bane",
-    "banishment",
-    "barkskin",
-    "beacon-of-hope",
-    "bestow-curse",
-    "black-tentacles",
-    "blade-barrier",
-    "bless",
-    "blight",
-    "blindnessdeafness",
-    "blink",
-    "blur",
-    "branding-smite",
-    "burning-hands",
-    "call-lightning",
-    "calm-emotions",
-    "chain-lightning",
-    "charm-person",
-    "chill-touch",
-    "circle-of-death",
-    "clairvoyance",
-    "clone",
-    "cloudkill",
-    "color-spray",
-    "command",
-    "commune",
-    "commune-with-nature",
-    "comprehend-languages",
-    "compulsion",
-  ];
-
   componentDidMount() {
-    this.updateRandom();
-  };
-
-  onSpellUpdate = (spell) => {
-    this.setState({ spell, loading: false })
-  };
-
-  onError = (err) => {
-    this.setState({
-      loading: false,
-      error: true
-    });
-  };
-
-  updateRandom() {
-    const randomSpellName = this.spells[Math.floor(Math.random() * this.spells.length)];
-
-    this.dndApi.getSpell(randomSpellName)
-      .then(this.onSpellUpdate)
-      .catch(this.onError);
+    this.dndApi
+      .getAllSpells()
+      .then((items) => {
+        this.props.getSpells(items);
+        this.props.getRandomSpell();
+      })
+      .catch(this.props.onError);
   };
 
   render() {
-    const { spell, loading, error } = this.state;
+    const { loading, error } = this.props;
 
     const hasData = !(loading || error);
     const errorMessage = error ? <ErrorMessage /> : null;
     const spinner = loading ? <Spinner /> : null;
-    const content = hasData ? <SpellView spell={spell} /> : null;
+    const content = hasData ? <SpellView spell={this.props.randomSpell} /> : null;
 
     return (
       <section className="card mb-3">
