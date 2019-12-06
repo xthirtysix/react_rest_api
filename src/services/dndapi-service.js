@@ -27,12 +27,13 @@ export default class openDndService {
   };
 
   async getSpell(name) {
-    const spell = await this.getResource(`/spells/${name.toLowerCase()}`);
+    const spell = await this.getResource(`/spells/${name}`);
     return this._changeSpell(spell);
   };
 
-  _changeSpell(spell) {
+  _changeSpell = (spell) => {
     return {
+      url: spell.slug,
       name: spell.name,
       level: spell.level,
       school: spell.school,
@@ -45,7 +46,7 @@ export default class openDndService {
     };
   };
 
-  _changeRace(race) {
+  _changeRace = (race) => {
     const subraces = race.subraces.map(el => {
       return el.name
     });

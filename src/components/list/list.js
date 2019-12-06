@@ -1,30 +1,49 @@
-import React from 'react';
+import React, { Component } from 'react';
+import openDndService from '../../services/dndapi-service';
+import Spinner from '../spinner';
 
-const List = (props) => {
-  const { races, current, onClickRace } = props;
+export default class List extends Component {
+  dndApi = new openDndService();
 
-  const items = races.map((race) => {
-    const capitalizedRace = race.charAt(0).toUpperCase() + race.slice(1);
-    const isActive = race === current;
-    const cssClass = isActive ? 'active' : null;
+  componentDidMount() {
+    this.dndApi
+      .getAllRaces()
+      .then((races) => {
+        this.props.getRaces(races);
+      });
+  };
+
+  renderItems(array) {
+    const { currentRace } = this.props;
+
+    return array.map((item) => {
+      const isActive = item.name === currentRace;
+      const cssClass = isActive ? 'active' : '';
+
+      return (
+        <li key={item.name}>
+          <a className={`nav-link ${cssClass}`}
+            href="#">{item.name}</a>
+        </li>
+      );
+    });
+  };
+
+  render() {
+    const { racesList, onClickRace } = this.props;
+
+    const items = this.renderItems(racesList);
+
+    if (!racesList) {
+      return <Spinner />
+    };
 
     return (
-      <li className="nav-item" key={race}>
-        <a
-          className={`nav-link ${cssClass}`}
-          href="#"
-          onClick={onClickRace}>
-          {capitalizedRace}
-        </a>
-      </li>
+      <ul
+        className="nav nav-pills flex-column mr-4"
+        onClick={onClickRace}>
+        {items}
+      </ul>
     );
-  });
-
-  return (
-    <ul className="nav nav-pills flex-column mr-4">
-      {items}
-    </ul>
-  );
+  };
 };
-
-export default List;

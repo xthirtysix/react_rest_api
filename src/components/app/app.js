@@ -5,43 +5,72 @@ import List from "../list";
 import RaceDetailes from "../race-detailes";
 
 export default class App extends Component {
-  races = [
-    'dwarf',
-    'elf',
-    'halfling',
-    'human',
-    'dragonborn',
-    'gnome',
-    'half-elf',
-    'half-orc',
-    'tiefling'
-  ];
-
   state = {
-    current: 'dwarf'
+    spells: [],
+    randomSpell: {},
+    randomSpellLoading: true,
+    randomSpellError: false,
+    races: [],
+    currentRace: 'Dwarf'
+  };
+
+  getSpells = (spells) => {
+    this.setState({ spells })
+  };
+
+  getRandomSpell = () => {
+    const { spells } = this.state;
+
+    const id = Math.floor(Math.random() * spells.length);
+    this.setState({
+      randomSpell: spells[id],
+      randomSpellLoading: false
+    });
+  };
+
+  getRaces = (races) => {
+    this.setState({ races })
   };
 
   onClickRace = (evt) => {
     evt.preventDefault();
     this.setState({
-      current: evt.target.innerText.toLowerCase()
+      currentRace: evt.target.innerText
+    });
+  };
+
+  onRandomSpellError = () => {
+    this.setState({
+      randomSpellLoading: false,
+      randomSpellError: true
     });
   };
 
   render() {
+    const { spells, randomSpell, randomSpellLoading,
+      randomSpellError, races, currentRace } = this.state;
+
     return (
       <div className="container">
         <Header />
-        <Random />
+        <Random
+          spells={spells}
+          getSpells={this.getSpells}
+          randomSpell={randomSpell}
+          loading={randomSpellLoading}
+          error={randomSpellError}
+          onError={this.onRandomSpellError}
+          getRandomSpell={this.getRandomSpell} />
         <div className="d-flex justify-content-between">
           <List
             className="w-100"
-            races={this.races}
-            current={this.state.current}
-            onClickRace={this.onClickRace} />
+            racesList={races}
+            currentRace={currentRace}
+            onClickRace={this.onClickRace}
+            getRaces={this.getRaces} />
           <RaceDetailes
             className="flex-shrink-1"
-            current={this.state.current} />
+            current={currentRace} />
         </div>
       </div >
     );
