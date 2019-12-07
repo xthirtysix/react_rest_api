@@ -48,10 +48,10 @@ export default class openDndService {
 
   _changeRace = (race) => {
     const subraces = race.subraces.map(el => {
-      return el.name
+      return el.name;
     });
 
-    const subracesToShow = subraces.legth > 0 ? subraces.join(', ') : 'none';
+    const subracesToShow = subraces.length ? subraces.join(', ') : 'none';
 
     return {
       name: race.name,
