@@ -49,6 +49,9 @@ export default class RaceDetailes extends Component {
 
 const RaceView = ({ race }) => {
   const { name, size, speed, subraces, desc } = race;
+  const subracesInfo = subraces
+    ? <p className="card-text text-danger">Subraces: {subraces}</p>
+    : null;
 
   return (
     <React.Fragment>
@@ -63,9 +66,9 @@ const RaceView = ({ race }) => {
         </div>
         <div className="card-body">
           <h3 className="card-title">{name}</h3>
-          <p className="card-text">Size: {size}</p>
-          <p className="card-text">Speed: {speed}</p>
-          <p className="card-text">Subraces: {subraces}</p>
+          <p className="card-text text-info">Size: {size}</p>
+          <p className="card-text text-success">Speed: {speed}</p>
+          {subracesInfo}
         </div>
       </div>
       <p className="card-text card-description p-3">{desc}</p>

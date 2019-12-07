@@ -51,7 +51,7 @@ export default class openDndService {
       return el.name;
     });
 
-    const subracesToShow = subraces.length ? subraces.join(', ') : 'none';
+    const subracesToShow = subraces.length ? subraces.join(', ') : null;
 
     return {
       name: race.name,
