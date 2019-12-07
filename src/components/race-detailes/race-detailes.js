@@ -52,7 +52,7 @@ const RaceView = ({ race }) => {
 
   return (
     <React.Fragment>
-      <div className="d-flex flex-wrap">
+      <div className="d-flex flex-wrap p-2">
         <div>
           <img
             className="card-img"
