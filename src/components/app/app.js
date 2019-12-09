@@ -51,28 +51,30 @@ export default class App extends Component {
       randomSpellError, races, currentRace } = this.state;
 
     return (
-      <div className="container">
+      <React.Fragment>
         <Header />
-        <Random
-          spells={spells}
-          getSpells={this.getSpells}
-          randomSpell={randomSpell}
-          loading={randomSpellLoading}
-          error={randomSpellError}
-          onError={this.onRandomSpellError}
-          getRandomSpell={this.getRandomSpell} />
-        <div className="d-flex justify-content-between">
-          <List
-            className="w-100"
-            racesList={races}
-            currentRace={currentRace}
-            onClickRace={this.onClickRace}
-            getRaces={this.getRaces} />
-          <RaceDetailes
-            className="flex-shrink-1"
-            current={currentRace} />
-        </div>
-      </div >
+        <div className="container">
+          <Random
+            spells={spells}
+            getSpells={this.getSpells}
+            randomSpell={randomSpell}
+            loading={randomSpellLoading}
+            error={randomSpellError}
+            onError={this.onRandomSpellError}
+            getRandomSpell={this.getRandomSpell} />
+          <div className="d-flex justify-content-between">
+            <List
+              className="w-100"
+              racesList={races}
+              currentRace={currentRace}
+              onClickRace={this.onClickRace}
+              getRaces={this.getRaces} />
+            <RaceDetailes
+              className="flex-shrink-1"
+              current={currentRace} />
+          </div>
+        </div >
+      </React.Fragment>
     );
   };
 };
