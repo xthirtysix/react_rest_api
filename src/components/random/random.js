@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import openDndService from '../../services/dndapi-service';
 import Spinner from '../Spinner';
-import ErrorMessage from '../ErrorMessage/'
+import ErrorMessage from '../ErrorMessage'
 import './Random.css';
 
 export default class Random extends Component {
