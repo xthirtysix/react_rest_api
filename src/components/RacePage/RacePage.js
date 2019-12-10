@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import List from '../list';
-import RaceDetailes from '../race-detailes';
-import ErrorMessage from '../error-message';
+import List from '../List';
+import RaceDetailes from '../RaceDetailes';
+import ErrorMessage from '../ErrorMessage';
 
 export default class RacePage extends Component {
   state = {

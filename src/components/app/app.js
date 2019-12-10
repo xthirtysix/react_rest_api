@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import Header from '../header';
-import Random from '../random';
-import List from '../list';
-import RaceDetailes from '../race-detailes';
-import ErrorButton from '../error-button';
-import ErrorMessage from '../error-message';
-import RacePage from '../race-page/race-page';
+import Header from '../Header';
+import Random from '../Random';
+import List from '../List';
+import RaceDetailes from '../RaceDetailes';
+import ErrorButton from '../ErrorButton';
+import ErrorMessage from '../ErrorMessage';
+import RacePage from '../RacePage';
 
-import './app.css';
+import './App.css';
 
 export default class App extends Component {
   state = {

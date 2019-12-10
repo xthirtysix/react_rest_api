@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import openDndService from '../../services/dndapi-service';
-import Spinner from '../spinner';
+import Spinner from '../Spinner';
 
 export default class List extends Component {
   dndApi = new openDndService();

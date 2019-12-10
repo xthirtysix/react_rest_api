@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import './race-detailes.css';
+import './RaceDetailes.css';
 import openDndService from '../../services/dndapi-service';
-import Spinner from '../spinner/';
-import ErrorButton from '../error-button';
+import Spinner from '../Spinner';
+import ErrorButton from '../ErrorButton';
 
 export default class RaceDetailes extends Component {
   dndApi = new openDndService();
@@ -19,8 +19,8 @@ export default class RaceDetailes extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.current !== prevProps.current) {
       this.getRace();
-    }
-  }
+    };
+  };
 
   getRace() {
     const race = this.props.current.toLowerCase();
