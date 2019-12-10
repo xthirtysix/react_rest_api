@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './race-detailes.css';
 import openDndService from '../../services/dndapi-service';
 import Spinner from '../spinner/';
+import ErrorButton from '../error-button';
 
 export default class RaceDetailes extends Component {
   dndApi = new openDndService();
@@ -72,6 +73,7 @@ const RaceView = ({ race }) => {
         </div>
       </div>
       <p className="card-text card-description p-3">{desc}</p>
+      <ErrorButton />
     </React.Fragment>
   );
 };
