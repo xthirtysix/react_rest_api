@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import openDndService from '../../services/dndapi-service';
-import Spinner from '../spinner';
+import Spinner from '../Spinner';
 
 export default class List extends Component {
   dndApi = new openDndService();
@@ -14,36 +14,29 @@ export default class List extends Component {
   };
 
   renderItems(array) {
-    const { currentRace } = this.props;
-
     return array.map((item) => {
-      const isActive = item.name === currentRace;
-      const cssClass = isActive ? 'active' : '';
-
       return (
-        <li key={item.name}>
-          <a className={`nav-link ${cssClass}`}
-            href="#">{item.name}</a>
-        </li>
+        <option key={item.name} value={item.name}>
+          {item.name}
+        </option>
       );
     });
   };
 
   render() {
-    const { racesList, onClickRace } = this.props;
+    const { races, onChangeRace } = this.props;
+    const { currentRace } = this.props;
 
-    const items = this.renderItems(racesList);
+    const items = this.renderItems(races);
 
-    if (!racesList) {
+    if (!races) {
       return <Spinner />
     };
 
     return (
-      <ul
-        className="nav nav-pills flex-column mr-4"
-        onClick={onClickRace}>
+      <select className="custom-select mb-1" value={currentRace} onChange={onChangeRace} >
         {items}
-      </ul>
+      </select>
     );
   };
 };

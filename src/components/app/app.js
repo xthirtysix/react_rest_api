@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
-import Header from "../header";
-import Random from "../random";
-import List from "../list";
-import RaceDetailes from "../race-detailes";
+import Header from '../Header';
+import Random from '../Random';
+import List from '../List';
+import RaceDetailes from '../RaceDetailes';
+import ErrorButton from '../ErrorButton';
+import ErrorMessage from '../ErrorMessage';
+import RacePage from '../RacePage';
+
+import './App.css';
 
 export default class App extends Component {
   state = {
@@ -10,8 +15,7 @@ export default class App extends Component {
     randomSpell: {},
     randomSpellLoading: true,
     randomSpellError: false,
-    races: [],
-    currentRace: 'Dwarf'
+    hasError: false
   };
 
   getSpells = (spells) => {
@@ -28,17 +32,6 @@ export default class App extends Component {
     });
   };
 
-  getRaces = (races) => {
-    this.setState({ races })
-  };
-
-  onClickRace = (evt) => {
-    evt.preventDefault();
-    this.setState({
-      currentRace: evt.target.innerText
-    });
-  };
-
   onRandomSpellError = () => {
     this.setState({
       randomSpellLoading: false,
@@ -46,33 +39,46 @@ export default class App extends Component {
     });
   };
 
+  componentDidCatch() {
+    this.setState({ hasError: true });
+  };
+
   render() {
     const { spells, randomSpell, randomSpellLoading,
-      randomSpellError, races, currentRace } = this.state;
+      randomSpellError, hasError } = this.state;
+
+    if (hasError) {
+      return (
+        <div className="container">
+          <section className="card mt-5">
+            <ErrorMessage />
+          </section>
+        </div >
+      );
+    };
 
     return (
       <React.Fragment>
         <Header />
-        <div className="container">
-          <Random
-            spells={spells}
-            getSpells={this.getSpells}
-            randomSpell={randomSpell}
-            loading={randomSpellLoading}
-            error={randomSpellError}
-            onError={this.onRandomSpellError}
-            getRandomSpell={this.getRandomSpell} />
-          <div className="d-flex justify-content-between">
-            <List
-              className="w-100"
-              racesList={races}
-              currentRace={currentRace}
-              onClickRace={this.onClickRace}
-              getRaces={this.getRaces} />
-            <RaceDetailes
-              className="flex-shrink-1"
-              current={currentRace} />
+        <div className="container container-main d-flex">
+          <div className="race-container">
+            <RacePage>
+              <List />
+              <RaceDetailes />
+            </RacePage>
+            <ErrorButton />
           </div>
+          <aside className="random-container">
+            <Random
+              spells={spells}
+              getSpells={this.getSpells}
+              randomSpell={randomSpell}
+              loading={randomSpellLoading}
+              error={randomSpellError}
+              onError={this.onRandomSpellError}
+              getRandomSpell={this.getRandomSpell} />
+          </aside>
+
         </div >
       </React.Fragment>
     );
