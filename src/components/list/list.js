@@ -20,12 +20,11 @@ export default class List extends Component {
   renderItems(array) {
     return array.map((item) => {
       const { name } = item;
-      const subname = this.props.renderItem(item);
-      const label = subname ? `(${subname})` : '';
+      const label = this.props.children(item);
 
       return (
         <option key={name} value={name}>
-          {name} {label}
+          {label}
         </option>
       );
     });

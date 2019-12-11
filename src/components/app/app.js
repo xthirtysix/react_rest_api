@@ -9,6 +9,7 @@ import RacePage from '../RacePage';
 
 import './App.css';
 import openDndService from '../../services/dndapi-service';
+import ErrorBoundry from '../ErrorBoundry';
 
 export default class App extends Component {
   dndApi = new openDndService();
@@ -18,8 +19,7 @@ export default class App extends Component {
     randomSpell: {},
     clazz: 'Wizard',
     randomSpellLoading: true,
-    randomSpellError: false,
-    hasError: false
+    randomSpellError: false
   };
 
   getSpells = (spells) => {
@@ -49,10 +49,6 @@ export default class App extends Component {
     });
   };
 
-  componentDidCatch() {
-    this.setState({ hasError: true });
-  };
-
   render() {
     const { spells, randomSpell, randomSpellLoading,
       randomSpellError, hasError } = this.state;
@@ -70,33 +66,44 @@ export default class App extends Component {
     return (
       <React.Fragment>
         <Header />
-        <div className="container">
-          <List
-            getData={this.dndApi.getAllClasses}
-            onChangeItem={this.onClassChange}
-            currentValue={this.state.clazz}
-            renderItem={(item) => { return item.archetypes }} />
-        </div>
-        <div className="container container-main d-flex">
-          <div className="race-container">
-            <RacePage>
-              <List />
-              <RaceDetailes />
-            </RacePage>
-            <ErrorButton />
-          </div>
-          <aside className="random-container">
-            <Random
-              spells={spells}
-              getSpells={this.getSpells}
-              randomSpell={randomSpell}
-              loading={randomSpellLoading}
-              error={randomSpellError}
-              onError={this.onRandomSpellError}
-              getRandomSpell={this.getRandomSpell} />
-          </aside>
+        <ErrorBoundry>
 
-        </div >
+          <div className="container">
+            <List
+              getData={this.dndApi.getAllClasses}
+              onChangeItem={this.onClassChange}
+              currentValue={this.state.clazz}>
+              {({ name, archetypes }) => {
+                const optional = archetypes ? `(${archetypes})` : '';
+                return `${name} ${optional}`;
+              }}
+            </List>
+          </div>
+
+          <div className="container container-main d-flex">
+
+            <div className="race-container">
+              <RacePage>
+                <List />
+                <RaceDetailes />
+              </RacePage>
+              <ErrorButton />
+            </div>
+
+            <aside className="random-container">
+              <Random
+                spells={spells}
+                getSpells={this.getSpells}
+                randomSpell={randomSpell}
+                loading={randomSpellLoading}
+                error={randomSpellError}
+                onError={this.onRandomSpellError}
+                getRandomSpell={this.getRandomSpell} />
+            </aside>
+
+          </div>
+
+        </ErrorBoundry>
       </React.Fragment>
     );
   };
