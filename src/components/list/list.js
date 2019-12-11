@@ -1,40 +1,48 @@
 import React, { Component } from 'react';
-import openDndService from '../../services/dndapi-service';
 import Spinner from '../Spinner';
 
 export default class List extends Component {
-  dndApi = new openDndService();
+  state = {
+    itemList: []
+  };
 
   componentDidMount() {
-    this.dndApi
-      .getAllRaces()
-      .then((races) => {
-        this.props.getRaces(races);
+    const { getData } = this.props;
+
+    getData()
+      .then((itemList) => {
+        this.setState({
+          itemList
+        });
       });
   };
 
   renderItems(array) {
     return array.map((item) => {
+      const { name } = item;
+      const subname = this.props.renderItem(item);
+      const label = subname ? `(${subname})` : '';
+
       return (
-        <option key={item.name} value={item.name}>
-          {item.name}
+        <option key={name} value={name}>
+          {name} {label}
         </option>
       );
     });
   };
 
   render() {
-    const { races, onChangeRace } = this.props;
-    const { currentRace } = this.props;
+    const { itemList } = this.state;
+    const { currentValue, onChangeItem } = this.props;
 
-    const items = this.renderItems(races);
+    const items = this.renderItems(itemList);
 
-    if (!races) {
+    if (!itemList) {
       return <Spinner />
     };
 
     return (
-      <select className="custom-select mb-1" value={currentRace} onChange={onChangeRace} >
+      <select className="custom-select mb-1" value={currentValue} onChange={onChangeItem} >
         {items}
       </select>
     );

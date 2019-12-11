@@ -8,11 +8,15 @@ import ErrorMessage from '../ErrorMessage';
 import RacePage from '../RacePage';
 
 import './App.css';
+import openDndService from '../../services/dndapi-service';
 
 export default class App extends Component {
+  dndApi = new openDndService();
+
   state = {
     spells: [],
     randomSpell: {},
+    clazz: 'Wizard',
     randomSpellLoading: true,
     randomSpellError: false,
     hasError: false
@@ -20,6 +24,12 @@ export default class App extends Component {
 
   getSpells = (spells) => {
     this.setState({ spells })
+  };
+
+  onClassChange = (evt) => {
+    this.setState({
+      clazz: evt.target.value
+    });
   };
 
   getRandomSpell = () => {
@@ -60,6 +70,13 @@ export default class App extends Component {
     return (
       <React.Fragment>
         <Header />
+        <div className="container">
+          <List
+            getData={this.dndApi.getAllClasses}
+            onChangeItem={this.onClassChange}
+            currentValue={this.state.clazz}
+            renderItem={(item) => { return item.archetypes }} />
+        </div>
         <div className="container container-main d-flex">
           <div className="race-container">
             <RacePage>

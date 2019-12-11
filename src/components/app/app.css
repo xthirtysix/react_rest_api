@@ -12,6 +12,10 @@
     flex-wrap: wrap;
   }
 
+  .race-container {
+    margin-right: 0;
+  }
+
   .random-container {
     max-width: 100%;
   }

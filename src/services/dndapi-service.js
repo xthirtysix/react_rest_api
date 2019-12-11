@@ -1,7 +1,7 @@
 export default class openDndService {
   _apiBase = 'https://api.open5e.com'
 
-  async getResource(url) {
+  getResource = async (url) => {
     const res = await fetch(`${this._apiBase}${url}`);
 
     if (!res.ok) {
@@ -11,22 +11,27 @@ export default class openDndService {
     return await res.json();
   };
 
-  async getAllRaces() {
+  getAllRaces = async () => {
     const res = await this.getResource(`/races/`);
     return res.results.map(this._changeRace);
   };
 
-  async getRace(name) {
+  getRace = async (name) => {
     const race = await this.getResource(`/races/${name.toLowerCase()}`);
     return this._changeRace(race);
   };
 
-  async getAllSpells() {
+  getAllClasses = async () => {
+    const res = await this.getResource(`/classes/`);
+    return res.results.map(this._changeClass);
+  };
+
+  getAllSpells = async () => {
     const res = await this.getResource(`/spells/`);
     return res.results.map(this._changeSpell);
   };
 
-  async getSpell(name) {
+  getSpell = async (name) => {
     const spell = await this.getResource(`/spells/${name}`);
     return this._changeSpell(spell);
   };
@@ -64,6 +69,23 @@ export default class openDndService {
         race.alignment +
         race.traits +
         race.vision
+    };
+  };
+
+  _changeClass = (clazz) => {
+    const archetypes = clazz.archetypes.map(el => {
+      return el.name;
+    });
+
+    const archetypesToShow = archetypes.length ? archetypes.join(', ') : null;
+
+    return {
+      name: clazz.name,
+      hitDice: clazz.hitDice,
+      profST: clazz.prof_saving_throws,
+      profArmor: clazz.prof_armor,
+      profWeapons: clazz.prof_weapons,
+      archetypes: archetypesToShow
     };
   };
 }; 
