@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import List from '../List';
 import RaceDetailes from '../RaceDetailes';
 import ErrorMessage from '../ErrorMessage';
+import ErrorBoundry from '../ErrorBoundry';
 import openDndService from '../../services/dndapi-service';
 
 export default class RacePage extends Component {
@@ -18,10 +19,6 @@ export default class RacePage extends Component {
     });
   };
 
-  componentDidCatch() {
-    this.setState({ hasError: true })
-  }
-
   render() {
     const { currentRace, hasError } = this.state;
 
@@ -34,15 +31,21 @@ export default class RacePage extends Component {
     };
 
     return (
-      <div>
-        <List
-          getData={this.dndApi.getAllRaces}
-          currentValue={currentRace}
-          onChangeItem={this.onChangeRace}
-          renderItem={(item) => { return item.subraces }} />
-        <RaceDetailes
-          current={currentRace} />
-      </div>
+      <ErrorBoundry>
+        <div>
+          <List
+            getData={this.dndApi.getAllRaces}
+            currentValue={currentRace}
+            onChangeItem={this.onChangeRace} >
+            {({ name, subraces }) => {
+              const optional = subraces ? `(${subraces})` : '';
+              return `${name} ${optional}`;
+            }}
+          </List>
+          <RaceDetailes
+            current={currentRace} />
+        </div>
+      </ErrorBoundry>
     );
   };
 };
