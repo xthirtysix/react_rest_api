@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import List from '../List';
-import RaceDetailes from '../RaceDetailes';
-import ErrorMessage from '../ErrorMessage';
+import ItemDetailes from '../ItemDetailes';
 import ErrorBoundry from '../ErrorBoundry';
 import openDndService from '../../services/dndapi-service';
+import { Record } from '../ItemDetailes/ItemDetailes';
 
 export default class RacePage extends Component {
   dndApi = new openDndService();
 
   state = {
-    currentRace: 'Human',
-    hasError: false
+    currentRace: 'Human'
   };
 
   onChangeRace = (evt) => {
@@ -20,32 +19,31 @@ export default class RacePage extends Component {
   };
 
   render() {
-    const { currentRace, hasError } = this.state;
-
-    if (hasError) {
-      return (
-        <section className="card w-100">
-          <ErrorMessage />
-        </section>
-      );
-    };
+    const { currentRace } = this.state;
+    const { getAllRaces, getRace } = this.dndApi;
 
     return (
-      <ErrorBoundry>
-        <div>
+      < ErrorBoundry >
+        <div className="container">
           <List
-            getData={this.dndApi.getAllRaces}
+            getData={getAllRaces}
             currentValue={currentRace}
             onChangeItem={this.onChangeRace} >
             {({ name, subraces }) => {
-              const optional = subraces ? `(${subraces})` : '';
+              const optional = subraces !== 'none' ? `(${subraces})` : '';
               return `${name} ${optional}`;
             }}
           </List>
-          <RaceDetailes
-            current={currentRace} />
+          <ItemDetailes
+            getData={getRace}
+            currentValue={currentRace}>
+            <Record field="size" label="Size: " />
+            <Record field="speed" label="Speed: " />
+            <Record field="subraces" label="Subraces: " />
+            <Record field="desc" label="Description: " />
+          </ItemDetailes>
         </div>
-      </ErrorBoundry>
+      </ErrorBoundry >
     );
   };
 };
