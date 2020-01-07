@@ -1,25 +1,24 @@
 import React, { Component } from 'react';
 import Header from '../Header';
-import Random from '../Random';
-import List from '../List';
-import RaceDetailes from '../RaceDetailes';
-import ErrorButton from '../ErrorButton';
+// import Random from '../Random';
+// import ErrorButton from '../ErrorButton';
 import ErrorMessage from '../ErrorMessage';
 import RacePage from '../RacePage';
+import ClassPage from '../ClassPage';
 
 import './App.css';
 import openDndService from '../../services/dndapi-service';
-import ErrorBoundry from '../ErrorBoundry';
+// import ErrorBoundry from '../ErrorBoundry';
 
 export default class App extends Component {
   dndApi = new openDndService();
 
   state = {
-    spells: [],
-    randomSpell: {},
-    clazz: 'Wizard',
-    randomSpellLoading: true,
-    randomSpellError: false
+    // spells: [],
+    // randomSpell: {},
+    // randomSpellLoading: true,
+    // randomSpellError: false,
+    currentItem: ''
   };
 
   getSpells = (spells) => {
@@ -50,8 +49,9 @@ export default class App extends Component {
   };
 
   render() {
-    const { spells, randomSpell, randomSpellLoading,
-      randomSpellError, hasError } = this.state;
+    // const { spells, randomSpell, randomSpellLoading,
+    // randomSpellError, hasError } = this.state;
+    const { hasError } = this.state;
 
     if (hasError) {
       return (
@@ -66,7 +66,7 @@ export default class App extends Component {
     return (
       <React.Fragment>
         <Header />
-        <ErrorBoundry>
+        {/* <ErrorBoundry>
 
           <div className="container">
             <List
@@ -82,12 +82,10 @@ export default class App extends Component {
 
           <div className="container container-main d-flex">
 
-            <div className="race-container">
-              <RacePage>
-                <List />
-                <RaceDetailes />
-              </RacePage>
-              <ErrorButton />
+            <div className="race-container"> */}
+        <RacePage />
+        <ClassPage />
+        {/* <ErrorButton />
             </div>
 
             <aside className="random-container">
@@ -103,7 +101,7 @@ export default class App extends Component {
 
           </div>
 
-        </ErrorBoundry>
+        </ErrorBoundry> */}
       </React.Fragment>
     );
   };

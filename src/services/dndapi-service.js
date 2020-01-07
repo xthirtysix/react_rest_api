@@ -11,29 +11,34 @@ export default class openDndService {
     return await res.json();
   };
 
+  getRace = async (name) => {
+    const race = await this.getResource(`/races/${name.toLowerCase()}`);
+    return this._changeRace(race);
+  };
+
   getAllRaces = async () => {
     const res = await this.getResource(`/races/`);
     return res.results.map(this._changeRace);
   };
 
-  getRace = async (name) => {
-    const race = await this.getResource(`/races/${name.toLowerCase()}`);
-    return this._changeRace(race);
-  };
+  getClass = async (name) => {
+    const clazz = await this.getResource(`/classes/${name.toLowerCase()}`);
+    return this._changeClass(clazz);
+  }
 
   getAllClasses = async () => {
     const res = await this.getResource(`/classes/`);
     return res.results.map(this._changeClass);
   };
 
-  getAllSpells = async () => {
-    const res = await this.getResource(`/spells/`);
-    return res.results.map(this._changeSpell);
-  };
-
   getSpell = async (name) => {
     const spell = await this.getResource(`/spells/${name}`);
     return this._changeSpell(spell);
+  };
+
+  getAllSpells = async () => {
+    const res = await this.getResource(`/spells/`);
+    return res.results.map(this._changeSpell);
   };
 
   _changeSpell = (spell) => {
@@ -56,7 +61,7 @@ export default class openDndService {
       return el.name;
     });
 
-    const subracesToShow = subraces.length ? subraces.join(', ') : null;
+    const subracesToShow = subraces.length ? subraces.join(', ') : 'none';
 
     return {
       name: race.name,
@@ -81,11 +86,14 @@ export default class openDndService {
 
     return {
       name: clazz.name,
-      hitDice: clazz.hitDice,
+      hitDice: clazz.hit_dice,
+      hp: clazz.hp_at_1st_level,
       profST: clazz.prof_saving_throws,
       profArmor: clazz.prof_armor,
       profWeapons: clazz.prof_weapons,
-      archetypes: archetypesToShow
+      archetypes: archetypesToShow,
+      description: `${clazz.desc.split(" ").splice(0, 20).join(" ")}...`,
+      spellcasting: clazz.spellcasting_ability
     };
   };
 }; 
