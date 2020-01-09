@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import Header from '../Header';
+import React, { Component } from "react";
+import Header from "../Header";
 // import Random from '../Random';
 // import ErrorButton from '../ErrorButton';
-import ErrorMessage from '../ErrorMessage';
-import RacePage from '../RacePage';
-import ClassPage from '../ClassPage';
+import ErrorMessage from "../ErrorMessage";
+import RacePage from "../RacePage";
+import ClassPage from "../ClassPage";
 
-import './App.css';
-import openDndService from '../../services/dndapi-service';
+import "./App.css";
+import openDndService from "../../services/dndapi-service";
 // import ErrorBoundry from '../ErrorBoundry';
 
 export default class App extends Component {
@@ -18,14 +18,14 @@ export default class App extends Component {
     // randomSpell: {},
     // randomSpellLoading: true,
     // randomSpellError: false,
-    currentItem: ''
+    currentItem: ""
   };
 
-  getSpells = (spells) => {
-    this.setState({ spells })
+  getSpells = spells => {
+    this.setState({ spells });
   };
 
-  onClassChange = (evt) => {
+  onClassChange = evt => {
     this.setState({
       clazz: evt.target.value
     });
@@ -59,9 +59,9 @@ export default class App extends Component {
           <section className="card mt-5">
             <ErrorMessage />
           </section>
-        </div >
+        </div>
       );
-    };
+    }
 
     return (
       <React.Fragment>
@@ -104,5 +104,5 @@ export default class App extends Component {
         </ErrorBoundry> */}
       </React.Fragment>
     );
-  };
-};
+  }
+}

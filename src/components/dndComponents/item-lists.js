@@ -1,17 +1,12 @@
 import React from "react";
 import List from "../List";
 import { withData } from "../HocHelpers";
+import withChildFunction from "./withChildFunction";
 import openDndService from "../../services/dndapi-service";
 
 const dndApi = new openDndService();
 
 const { getAllRaces, getAllClasses, getAllSpells } = dndApi;
-
-const withChildFunction = (Wrapped, fn) => {
-  return props => {
-    return <Wrapped {...props}>{fn}</Wrapped>;
-  };
-};
 
 const renderRaceName = ({ name, subraces }) => {
   return `${name} ${subraces !== "none" ? `(${subraces})` : ""}`;
