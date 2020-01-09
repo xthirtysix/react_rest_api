@@ -3,7 +3,7 @@ import Spinner from "../Spinner";
 
 import openDndService from "../../services/dndapi-service";
 
-const withDetailes = (Wrapped, fn, getData) => {
+const withDetailes = (Wrapped, getData) => {
   return class extends Component {
     dndApi = new openDndService();
 
@@ -37,16 +37,11 @@ const withDetailes = (Wrapped, fn, getData) => {
 
     render() {
       const { item } = this.state;
-      const { currentValue } = this.props;
 
       if (!item) {
         return <Spinner />;
       }
-      return (
-        <Wrapped {...this.props} item={item} currentValue={currentValue}>
-          {fn}
-        </Wrapped>
-      );
+      return <Wrapped {...this.props} item={item} />;
     }
   };
 };
