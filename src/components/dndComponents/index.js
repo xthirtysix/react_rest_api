@@ -1,12 +1,10 @@
-import { ClassList, RaceList, SpellList } from "./item-lists";
+import { ClassList, RaceList} from "./item-lists";
 
-import { ClassDetailes, RaceDetailes, SpellDetailes } from "./detailes";
+import { ClassDetailes, RaceDetailes} from "./detailes";
 
 export {
   ClassList,
   RaceList,
-  SpellList,
   ClassDetailes,
   RaceDetailes,
-  SpellDetailes
 };

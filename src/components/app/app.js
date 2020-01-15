@@ -8,6 +8,7 @@ import ClassPage from "../ClassPage";
 
 import "./App.css";
 import openDndService from "../../services/dndapi-service";
+import { DndProvider } from "../dndServiceContext";
 // import ErrorBoundry from '../ErrorBoundry';
 
 export default class App extends Component {
@@ -83,8 +84,10 @@ export default class App extends Component {
           <div className="container container-main d-flex">
 
             <div className="race-container"> */}
-        <RacePage />
-        <ClassPage />
+        <DndProvider value={this.dndApi}>
+          <RacePage />
+          <ClassPage />
+        </DndProvider>
         {/* <ErrorButton />
             </div>
 

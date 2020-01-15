@@ -2,7 +2,6 @@ import React from "react";
 
 const List = props => {
   const { data, currentValue, onChangeItem, children: renderLabel } = props;
-  console.log(props);
 
   const items = data.map(item => {
     const { name } = item;

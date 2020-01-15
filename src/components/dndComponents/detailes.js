@@ -1,9 +1,8 @@
 import React from "react";
 
 import ItemDetailes from "../ItemDetailes";
-import { withDetailes } from "../HocHelpers";
+import { withDetailes, withDndService } from "../HocHelpers";
 import withChildFunction from "./withChildFunction";
-import openDndService from "../../services/dndapi-service";
 
 const Record = ({ field, label }) => {
   return (
@@ -13,10 +12,6 @@ const Record = ({ field, label }) => {
     </div>
   );
 };
-
-const dndApi = new openDndService();
-
-const { getClass, getRace } = dndApi;
 
 const renderClassDetailes = ({
   hitDice,
@@ -42,9 +37,13 @@ const renderClassDetailes = ({
   );
 };
 
-const ClassDetailes = withDetailes(
-  withChildFunction(ItemDetailes, renderClassDetailes),
-  getClass
+const mapClassMethodsToProps = (dndApi) => {
+  return {
+    getData: dndApi.getClass
+  }
+}
+const ClassDetailes = withDndService(withDetailes(
+  withChildFunction(ItemDetailes, renderClassDetailes)), mapClassMethodsToProps
 );
 
 const renderRaceDetailes = ({ size, speed, subraces, desc }) => {
@@ -58,9 +57,14 @@ const renderRaceDetailes = ({ size, speed, subraces, desc }) => {
   );
 };
 
-const RaceDetailes = withDetailes(
-  withChildFunction(ItemDetailes, renderRaceDetailes),
-  getRace
+const mapRaceMethodsToProps = (dndApi) => {
+  return {
+    getData: dndApi.getRace
+  }
+}
+
+const RaceDetailes = withDndService(withDetailes(
+  withChildFunction(ItemDetailes, renderRaceDetailes)), mapRaceMethodsToProps
 );
 
 const SpellDetailes = () => {};

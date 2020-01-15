@@ -2,11 +2,8 @@ import React, { Component } from "react";
 import ErrorBoundry from "../ErrorBoundry";
 import { RaceList } from "../dndComponents";
 import { RaceDetailes } from "../dndComponents";
-import openDndService from "../../services/dndapi-service";
 
 export default class RacePage extends Component {
-  dndApi = new openDndService();
-
   state = {
     currentRace: "Human"
   };

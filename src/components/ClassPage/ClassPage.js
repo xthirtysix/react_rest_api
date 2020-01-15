@@ -1,12 +1,9 @@
 import React, { Component } from "react";
 import ErrorBoundry from "../ErrorBoundry";
-import openDndService from "../../services/dndapi-service";
 import { ClassList } from "../dndComponents";
 import { ClassDetailes } from "../dndComponents";
 
 export default class ClassPage extends Component {
-  dndApi = new openDndService();
-
   state = {
     currentClass: "Wizard"
   };

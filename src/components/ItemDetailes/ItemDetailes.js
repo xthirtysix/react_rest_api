@@ -8,7 +8,6 @@ const ItemDetailes = props => {
     item: { name },
     children: renderDetailes
   } = props;
-  console.log(props);
 
   const detailes = renderDetailes(item);
 
