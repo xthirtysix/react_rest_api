@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import Spinner from "../Spinner";
 
-const withData = (View, getData) => {
+const withData = (View) => {
   return class extends Component {
     state = {
       itemList: []
     };
 
     componentDidMount() {
-      getData().then(itemList => {
+      this.props.getData().then(itemList => {
         this.setState({
           itemList
         });

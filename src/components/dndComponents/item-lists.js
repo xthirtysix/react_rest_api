@@ -1,12 +1,6 @@
-import React from "react";
 import List from "../List";
-import { withData } from "../HocHelpers";
+import { withData, withDndService } from "../HocHelpers";
 import withChildFunction from "./withChildFunction";
-import openDndService from "../../services/dndapi-service";
-
-const dndApi = new openDndService();
-
-const { getAllRaces, getAllClasses, getAllSpells } = dndApi;
 
 const renderRaceName = ({ name, subraces }) => {
   return `${name} ${subraces !== "none" ? `(${subraces})` : ""}`;
@@ -16,11 +10,25 @@ const renderClassName = ({ name }) => {
   return `${name}`;
 };
 
-const RaceList = withData(withChildFunction(List, renderRaceName), getAllRaces);
-const ClassList = withData(
-  withChildFunction(List, renderClassName),
-  getAllClasses
-);
-const SpellList = withData(List, getAllSpells);
+const mapRaceMethodsToProps = (dndApi) => {
+  return {
+    getData: dndApi.getAllRaces
+  };
+};
 
-export { RaceList, ClassList, SpellList };
+const mapClassMethodsToProps = (dndApi) => {
+  return {
+    getData: dndApi.getAllClasses
+  };
+};
+
+const RaceList = withDndService(
+                  withData(
+                    withChildFunction(List, renderRaceName)
+                  ), mapRaceMethodsToProps);
+const ClassList = withDndService(
+                    withData(
+                      withChildFunction(List, renderClassName)
+                    ), mapClassMethodsToProps);
+
+export { RaceList, ClassList};
