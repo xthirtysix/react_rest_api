@@ -1,18 +1,23 @@
-export default class openDndService {
-  _apiBase = 'https://api.open5e.com'
+/* eslint-disable no-underscore-dangle */
+export default class OpenDndService {
+  _apiBase = "https://api.open5e.com";
 
-  getResource = async (url) => {
+  getResource = async url => {
     const res = await fetch(`${this._apiBase}${url}`);
 
     if (!res.ok) {
-      throw new Error(`Could not fetch ${url}, recieved ${res.status}`);
-    };
+      throw new Error(
+        `Could not fetch ${url}, recieved ${res.status}`
+      );
+    }
 
-    return await res.json();
+    return res.json();
   };
 
-  getRace = async (name) => {
-    const race = await this.getResource(`/races/${name.toLowerCase()}`);
+  getRace = async name => {
+    const race = await this.getResource(
+      `/races/${name.toLowerCase()}`
+    );
     return this._changeRace(race);
   };
 
@@ -21,17 +26,19 @@ export default class openDndService {
     return res.results.map(this._changeRace);
   };
 
-  getClass = async (name) => {
-    const clazz = await this.getResource(`/classes/${name.toLowerCase()}`);
+  getClass = async name => {
+    const clazz = await this.getResource(
+      `/classes/${name.toLowerCase()}`
+    );
     return this._changeClass(clazz);
-  }
+  };
 
   getAllClasses = async () => {
     const res = await this.getResource(`/classes/`);
     return res.results.map(this._changeClass);
   };
 
-  getSpell = async (name) => {
+  getSpell = async name => {
     const spell = await this.getResource(`/spells/${name}`);
     return this._changeSpell(spell);
   };
@@ -41,7 +48,7 @@ export default class openDndService {
     return res.results.map(this._changeSpell);
   };
 
-  _changeSpell = (spell) => {
+  _changeSpell = spell => {
     return {
       url: spell.slug,
       name: spell.name,
@@ -52,16 +59,18 @@ export default class openDndService {
       castingTime: spell.casting_time,
       duration: spell.duration,
       components: spell.components,
-      description: spell.desc
+      description: spell.desc,
     };
   };
 
-  _changeRace = (race) => {
+  _changeRace = race => {
     const subraces = race.subraces.map(el => {
       return el.name;
     });
 
-    const subracesToShow = subraces.length ? subraces.join(', ') : 'none';
+    const subracesToShow = subraces.length
+      ? subraces.join(", ")
+      : "none";
 
     return {
       name: race.name,
@@ -73,16 +82,18 @@ export default class openDndService {
         race.age +
         race.alignment +
         race.traits +
-        race.vision
+        race.vision,
     };
   };
 
-  _changeClass = (clazz) => {
+  _changeClass = clazz => {
     const archetypes = clazz.archetypes.map(el => {
       return el.name;
     });
 
-    const archetypesToShow = archetypes.length ? archetypes.join(', ') : null;
+    const archetypesToShow = archetypes.length
+      ? archetypes.join(", ")
+      : null;
 
     return {
       name: clazz.name,
@@ -92,8 +103,11 @@ export default class openDndService {
       profArmor: clazz.prof_armor,
       profWeapons: clazz.prof_weapons,
       archetypes: archetypesToShow,
-      description: `${clazz.desc.split(" ").splice(0, 20).join(" ")}...`,
-      spellcasting: clazz.spellcasting_ability
+      description: `${clazz.desc
+        .split(" ")
+        .splice(0, 20)
+        .join(" ")}...`,
+      spellcasting: clazz.spellcasting_ability,
     };
   };
-}; 
+}

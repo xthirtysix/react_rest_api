@@ -1,16 +1,23 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
+
 import Spinner from "../Spinner";
 
-const withData = (View) => {
-  return class extends Component {
-    state = {
-      itemList: []
-    };
+const withData = View => {
+  class Sub extends Component {
+    constructor() {
+      super();
+      this.state = {
+        itemList: [],
+      };
+    }
 
     componentDidMount() {
-      this.props.getData().then(itemList => {
+      const { getData } = this.props;
+
+      getData().then(itemList => {
         this.setState({
-          itemList
+          itemList,
         });
       });
     }
@@ -34,7 +41,14 @@ const withData = (View) => {
         />
       );
     }
+  }
+  Sub.propTypes = {
+    getData: PropTypes.func.isRequired,
+    currentValue: PropTypes.string.isRequired,
+    onChangeItem: PropTypes.func.isRequired,
   };
+
+  return Sub;
 };
 
 export default withData;

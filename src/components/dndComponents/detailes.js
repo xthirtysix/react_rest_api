@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import ItemDetailes from "../ItemDetailes";
 import { withDetailes, withDndService } from "../HocHelpers";
@@ -13,6 +14,15 @@ const Record = ({ field, label }) => {
   );
 };
 
+Record.propTypes = {
+  field: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.number,
+    PropTypes.string,
+  ]).isRequired,
+  label: PropTypes.string.isRequired,
+};
+
 const renderClassDetailes = ({
   hitDice,
   hp,
@@ -21,7 +31,7 @@ const renderClassDetailes = ({
   profArmor,
   profWeapons,
   spellcasting,
-  description
+  description,
 }) => {
   return (
     <div>
@@ -37,13 +47,34 @@ const renderClassDetailes = ({
   );
 };
 
-const mapClassMethodsToProps = (dndApi) => {
+renderClassDetailes.propTypes = {
+  hitDice: PropTypes.string.isRequired,
+  hp: PropTypes.string.isRequired,
+  archetypes: PropTypes.string,
+  profST: PropTypes.string,
+  profArmor: PropTypes.string,
+  profWeapons: PropTypes.string,
+  spellcasting: PropTypes.string,
+  description: PropTypes.string,
+};
+
+renderClassDetailes.defaultProps = {
+  archetypes: "none",
+  profST: "none",
+  profArmor: "none",
+  profWeapons: "none",
+  spellcasting: "none",
+  description: "none",
+};
+
+const mapClassMethodsToProps = dndApi => {
   return {
-    getData: dndApi.getClass
-  }
-}
-const ClassDetailes = withDndService(withDetailes(
-  withChildFunction(ItemDetailes, renderClassDetailes)), mapClassMethodsToProps
+    getData: dndApi.getClass,
+  };
+};
+const ClassDetailes = withDndService(
+  withDetailes(withChildFunction(ItemDetailes, renderClassDetailes)),
+  mapClassMethodsToProps
 );
 
 const renderRaceDetailes = ({ size, speed, subraces, desc }) => {
@@ -57,14 +88,27 @@ const renderRaceDetailes = ({ size, speed, subraces, desc }) => {
   );
 };
 
-const mapRaceMethodsToProps = (dndApi) => {
-  return {
-    getData: dndApi.getRace
-  }
-}
+renderRaceDetailes.propTypes = {
+  size: PropTypes.arrayOf(PropTypes.string).isRequired,
+  speed: PropTypes.number.isRequired,
+  subraces: PropTypes.string,
+  desc: PropTypes.string,
+};
 
-const RaceDetailes = withDndService(withDetailes(
-  withChildFunction(ItemDetailes, renderRaceDetailes)), mapRaceMethodsToProps
+renderRaceDetailes.defaultProps = {
+  subraces: "none",
+  desc: "No description available",
+};
+
+const mapRaceMethodsToProps = dndApi => {
+  return {
+    getData: dndApi.getRace,
+  };
+};
+
+const RaceDetailes = withDndService(
+  withDetailes(withChildFunction(ItemDetailes, renderRaceDetailes)),
+  mapRaceMethodsToProps
 );
 
 const SpellDetailes = () => {};

@@ -7,47 +7,50 @@ import RacePage from "../RacePage";
 import ClassPage from "../ClassPage";
 
 import "./App.css";
-import openDndService from "../../services/dndapi-service";
+import OpenDndService from "../../services/dndapi-service";
 import { DndProvider } from "../dndServiceContext";
 // import ErrorBoundry from '../ErrorBoundry';
 
 export default class App extends Component {
-  dndApi = new openDndService();
+  dndApi = new OpenDndService();
 
-  state = {
-    // spells: [],
-    // randomSpell: {},
-    // randomSpellLoading: true,
-    // randomSpellError: false,
-    currentItem: ""
-  };
+  constructor() {
+    super();
+    this.state = {
+      // spells: [],
+      // randomSpell: {},
+      // randomSpellError: false,
+      // currentItem: "",
+      hasError: false,
+    };
+  }
 
-  getSpells = spells => {
-    this.setState({ spells });
-  };
+  // getSpells = spells => {
+  //   this.setState({spells});
+  // };
 
-  onClassChange = evt => {
-    this.setState({
-      clazz: evt.target.value
-    });
-  };
+  // onClassChange = evt => {
+  //   this.setState({
+  //     clazz: evt.target.value,
+  //   });
+  // };
 
-  getRandomSpell = () => {
-    const { spells } = this.state;
+  // getRandomSpell = () => {
+  //   const {spells} = this.state;
 
-    const id = Math.floor(Math.random() * spells.length);
-    this.setState({
-      randomSpell: spells[id],
-      randomSpellLoading: false
-    });
-  };
+  //   const id = Math.floor(Math.random() * spells.length);
+  //   this.setState({
+  //     randomSpell: spells[id],
+  //     randomSpellLoading: false
+  //   });
+  // };
 
-  onRandomSpellError = () => {
-    this.setState({
-      randomSpellLoading: false,
-      randomSpellError: true
-    });
-  };
+  // onRandomSpellError = () => {
+  //   this.setState({
+  //     randomSpellLoading: false,
+  //     randomSpellError: true
+  //   });
+  // };
 
   render() {
     // const { spells, randomSpell, randomSpellLoading,
@@ -65,7 +68,7 @@ export default class App extends Component {
     }
 
     return (
-      <React.Fragment>
+      <>
         <Header />
         {/* <ErrorBoundry>
 
@@ -105,7 +108,7 @@ export default class App extends Component {
           </div>
 
         </ErrorBoundry> */}
-      </React.Fragment>
+      </>
     );
   }
 }

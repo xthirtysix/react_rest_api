@@ -10,25 +10,25 @@ const renderClassName = ({ name }) => {
   return `${name}`;
 };
 
-const mapRaceMethodsToProps = (dndApi) => {
+const mapRaceMethodsToProps = dndApi => {
   return {
-    getData: dndApi.getAllRaces
+    getData: dndApi.getAllRaces,
   };
 };
 
-const mapClassMethodsToProps = (dndApi) => {
+const mapClassMethodsToProps = dndApi => {
   return {
-    getData: dndApi.getAllClasses
+    getData: dndApi.getAllClasses,
   };
 };
 
 const RaceList = withDndService(
-                  withData(
-                    withChildFunction(List, renderRaceName)
-                  ), mapRaceMethodsToProps);
+  withData(withChildFunction(List, renderRaceName)),
+  mapRaceMethodsToProps
+);
 const ClassList = withDndService(
-                    withData(
-                      withChildFunction(List, renderClassName)
-                    ), mapClassMethodsToProps);
+  withData(withChildFunction(List, renderClassName)),
+  mapClassMethodsToProps
+);
 
-export { RaceList, ClassList};
+export { RaceList, ClassList };

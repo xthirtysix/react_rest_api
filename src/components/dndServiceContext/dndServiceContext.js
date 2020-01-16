@@ -1,7 +1,10 @@
-import React from 'react';
+import React from "react";
 
 React.createContext();
 
-const {Provider: DndProvider, Consumer: DndConsumer} = React.createContext();
+const {
+  Provider: DndProvider,
+  Consumer: DndConsumer,
+} = React.createContext();
 
-export {DndProvider, DndConsumer};
+export { DndProvider, DndConsumer };

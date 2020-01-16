@@ -1,36 +1,42 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
+
 import Spinner from "../Spinner";
 
-import openDndService from "../../services/dndapi-service";
+import OpenDndService from "../../services/dndapi-service";
 
-const withDetailes = (Wrapped) => {
-  return class extends Component {
-    dndApi = new openDndService();
+const withDetailes = Wrapped => {
+  class Sub extends Component {
+    dndApi = new OpenDndService();
 
-    state = {
-      item: ""
-    };
+    constructor() {
+      super();
+      this.state = {
+        item: "",
+      };
+    }
 
     componentDidMount() {
       this.updateItem();
     }
 
-    componentDidUpdate(prevProps) {
-      if (this.props.currentValue !== prevProps.currentValue) {
+    componentDidUpdate({ currentValue: previousValue }) {
+      const { currentValue } = this.props;
+      if (currentValue !== previousValue) {
         this.updateItem();
       }
     }
 
     updateItem() {
-      const { currentValue } = this.props;
+      const { currentValue, getData } = this.props;
 
       if (!currentValue) {
         return;
       }
 
-      this.props.getData(currentValue).then(item => {
+      getData(currentValue).then(item => {
         this.setState({
-          item
+          item,
         });
       });
     }
@@ -43,7 +49,14 @@ const withDetailes = (Wrapped) => {
       }
       return <Wrapped {...this.props} item={item} />;
     }
+  }
+
+  Sub.propTypes = {
+    currentValue: PropTypes.string.isRequired,
+    getData: PropTypes.func.isRequired,
   };
+
+  return Sub;
 };
 
 export default withDetailes;

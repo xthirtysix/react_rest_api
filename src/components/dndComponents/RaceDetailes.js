@@ -15,8 +15,8 @@
 //   );
 // };
 
-// const RaceDetailes = ({openDndService}) => {
-//   const {getRace} = openDndService;
+// const RaceDetailes = ({OpenDndService}) => {
+//   const {getRace} = OpenDndService;
 //   return (
 //     withDetailes(withChildFunction(ItemDetailes, renderRaceDetailes),
 //     getRace)

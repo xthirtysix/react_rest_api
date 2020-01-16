@@ -1,3 +1,3 @@
-import {DndProvider, DndConsumer} from './dndServiceContext';
+import { DndProvider, DndConsumer } from "./dndServiceContext";
 
-export {DndProvider, DndConsumer};
+export { DndProvider, DndConsumer };
