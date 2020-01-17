@@ -1,10 +1,5 @@
-import { ClassList, RaceList} from "./item-lists";
+import { ClassList, RaceList } from "./ItemLists";
 
-import { ClassDetailes, RaceDetailes} from "./detailes";
+import { ClassDetailes, RaceDetailes } from "./Detailes";
 
-export {
-  ClassList,
-  RaceList,
-  ClassDetailes,
-  RaceDetailes,
-};
+export { ClassList, RaceList, ClassDetailes, RaceDetailes };

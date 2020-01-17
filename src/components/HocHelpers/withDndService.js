@@ -1,18 +1,16 @@
-import React from 'react';
-import {DndConsumer} from '../dndServiceContext';
+import React from "react";
+import { DndConsumer } from "../DndServiceContext";
 
-const withDndService = (Wrapped, mapMethodsToProps) => {
-  return (props) => {
-    return (<DndConsumer>
-      { 
-        (dndApi) => {
-          const serviceProps = mapMethodsToProps(dndApi)
-          return(
-            <Wrapped {...props} {...serviceProps}/>
-          )
-        }
-      }
-    </DndConsumer>)
+const withDndService = mapMethodsToProps => Wrapped => {
+  return props => {
+    return (
+      <DndConsumer>
+        {dndApi => {
+          const serviceProps = mapMethodsToProps(dndApi);
+          return <Wrapped {...props} {...serviceProps} />;
+        }}
+      </DndConsumer>
+    );
   };
 };
 

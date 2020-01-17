@@ -1,26 +1,40 @@
-import React, { Component } from 'react';
-import ErrorMessage from '../ErrorMessage';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import ErrorMessage from "../ErrorMessage";
 
 export default class ErrorBoundry extends Component {
-  state = {
-    hasError: false
-  };
+  constructor() {
+    super();
+    this.state = {
+      hasError: false,
+    };
+  }
 
   componentDidCatch() {
     this.setState({
-      hasError: true
+      hasError: true,
     });
-  };
+  }
 
   render() {
-    if (this.state.hasError) {
+    const { hasError } = this.state;
+    const { children } = this.props;
+
+    if (hasError) {
       return (
         <div className="card container p-0">
           <ErrorMessage />
         </div>
       );
-    };
+    }
 
-    return this.props.children;
-  };
+    return children;
+  }
+}
+
+ErrorBoundry.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
 };

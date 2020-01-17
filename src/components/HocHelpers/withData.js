@@ -1,28 +1,48 @@
 import React, { Component } from "react";
-import Spinner from "../Spinner";
+import PropTypes from "prop-types";
 
-const withData = (View) => {
-  return class extends Component {
-    state = {
-      itemList: []
-    };
+import Spinner from "../Spinner";
+import ErrorMessage from "../ErrorMessage";
+
+const withData = View => {
+  class Sub extends Component {
+    constructor() {
+      super();
+      this.state = {
+        itemList: [],
+        loading: true,
+        error: false,
+      };
+    }
 
     componentDidMount() {
-      this.props.getData().then(itemList => {
-        this.setState({
-          itemList
+      const { getData } = this.props;
+
+      getData()
+        .then(itemList => {
+          this.setState({
+            itemList,
+            loading: false,
+          });
+        })
+        .catch(() => {
+          this.setState({
+            loading: false,
+            error: true,
+          });
         });
-      });
     }
 
     render() {
-      const { itemList } = this.state;
+      const { itemList, loading, error } = this.state;
       const { currentValue, onChangeItem } = this.props;
 
-      const data = itemList;
-
-      if (!data) {
+      if (loading) {
         return <Spinner />;
+      }
+
+      if (error) {
+        return <ErrorMessage />;
       }
 
       return (
@@ -30,11 +50,18 @@ const withData = (View) => {
           {...this.props}
           currentValue={currentValue}
           onChangeItem={onChangeItem}
-          data={data}
+          data={itemList}
         />
       );
     }
+  }
+  Sub.propTypes = {
+    getData: PropTypes.func.isRequired,
+    currentValue: PropTypes.string.isRequired,
+    onChangeItem: PropTypes.func.isRequired,
   };
+
+  return Sub;
 };
 
 export default withData;

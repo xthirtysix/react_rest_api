@@ -1,12 +1,13 @@
 import React from "react";
-import ErrorButton from "../ErrorButton";
+import PropTypes from "prop-types";
+
 import "./ItemDetailes.css";
 
 const ItemDetailes = props => {
   const {
     item,
     item: { name },
-    children: renderDetailes
+    children: renderDetailes,
   } = props;
 
   const detailes = renderDetailes(item);
@@ -26,9 +27,19 @@ const ItemDetailes = props => {
           <div>{detailes}</div>
         </div>
       </div>
-      <ErrorButton />
     </section>
   );
+};
+
+ItemDetailes.propTypes = {
+  item: PropTypes.objectOf(
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.arrayOf(PropTypes.string),
+    ])
+  ).isRequired,
+  children: PropTypes.func.isRequired,
 };
 
 export default ItemDetailes;

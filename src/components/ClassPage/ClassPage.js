@@ -1,16 +1,18 @@
 import React, { Component } from "react";
 import ErrorBoundry from "../ErrorBoundry";
-import { ClassList } from "../dndComponents";
-import { ClassDetailes } from "../dndComponents";
+import { ClassList, ClassDetailes } from "../DndComponents";
 
 export default class ClassPage extends Component {
-  state = {
-    currentClass: "Wizard"
-  };
+  constructor() {
+    super();
+    this.state = {
+      currentClass: "Wizard",
+    };
+  }
 
   onChangeClass = evt => {
     this.setState({
-      currentClass: evt.target.value
+      currentClass: evt.target.value,
     });
   };
 
