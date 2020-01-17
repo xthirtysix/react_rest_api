@@ -2,8 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import ItemDetailes from "../ItemDetailes";
-import { withDetailes, withDndService } from "../HocHelpers";
-import withChildFunction from "./withChildFunction";
+import {
+  withDetailes,
+  withDndService,
+  withChildFunction,
+  compose,
+} from "../HocHelpers";
 
 const Record = ({ field, label }) => {
   return (
@@ -72,10 +76,11 @@ const mapClassMethodsToProps = dndApi => {
     getData: dndApi.getClass,
   };
 };
-const ClassDetailes = withDndService(
-  withDetailes(withChildFunction(ItemDetailes, renderClassDetailes)),
-  mapClassMethodsToProps
-);
+const ClassDetailes = compose(
+  withDndService(mapClassMethodsToProps),
+  withDetailes,
+  withChildFunction(renderClassDetailes)
+)(ItemDetailes);
 
 const renderRaceDetailes = ({ size, speed, subraces, desc }) => {
   return (
@@ -106,10 +111,11 @@ const mapRaceMethodsToProps = dndApi => {
   };
 };
 
-const RaceDetailes = withDndService(
-  withDetailes(withChildFunction(ItemDetailes, renderRaceDetailes)),
-  mapRaceMethodsToProps
-);
+const RaceDetailes = compose(
+  withDndService(mapRaceMethodsToProps),
+  withDetailes,
+  withChildFunction(renderRaceDetailes)
+)(ItemDetailes);
 
 const SpellDetailes = () => {};
 

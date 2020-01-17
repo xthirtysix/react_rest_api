@@ -1,7 +1,7 @@
 import React from "react";
-import { DndConsumer } from "../dndServiceContext";
+import { DndConsumer } from "../DndServiceContext";
 
-const withDndService = (Wrapped, mapMethodsToProps) => {
+const withDndService = mapMethodsToProps => Wrapped => {
   return props => {
     return (
       <DndConsumer>

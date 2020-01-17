@@ -1,53 +1,62 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-import OpenDndService from "../../services/dndapi-service";
-import Spinner from "../Spinner";
-import ErrorMessage from "../ErrorMessage";
 import "./Random.css";
+import Spinner from "../Spinner";
+import ErrorBoundry from "../ErrorBoundry";
+import OpenDndService from "../../services/dndapi-service";
 
 export default class Random extends Component {
   dndApi = new OpenDndService();
 
-  componentDidMount() {
-    const { getSpells, getRandomSpell, onError } = this.props;
-    this.dndApi
-      .getAllSpells()
-      .then(items => {
-        getSpells(items);
-        getRandomSpell();
-      })
-      .catch(onError);
+  constructor() {
+    super();
+    this.state = {
+      spells: [],
+      randomSpell: {},
+      loading: true,
+    };
   }
 
-  render() {
-    const { loading, error, randomSpell } = this.props;
+  componentDidMount() {
+    this.dndApi.getAllSpells().then(items => {
+      this.getSpells(items);
+      this.getRandomSpell();
+      this.setState({
+        loading: false,
+      });
+    });
+  }
 
-    const hasData = !(loading || error);
-    const errorMessage = error ? <ErrorMessage /> : null;
-    const spinner = loading ? <Spinner /> : null;
-    const content = hasData ? (
-      <SpellView spell={randomSpell} />
-    ) : null;
+  getSpells = spells => {
+    this.setState({ spells });
+  };
+
+  getRandomSpell = () => {
+    const { spells } = this.state;
+
+    const id = Math.floor(Math.random() * spells.length);
+    this.setState({
+      randomSpell: spells[id],
+    });
+  };
+
+  render() {
+    const { loading, randomSpell } = this.state;
+
+    if (loading) {
+      return <Spinner />;
+    }
 
     return (
       <section className="card mb-3">
-        {errorMessage}
-        {spinner}
-        {content}
+        <ErrorBoundry>
+          <SpellView spell={randomSpell} />
+        </ErrorBoundry>
       </section>
     );
   }
 }
-
-Random.propTypes = {
-  getSpells: PropTypes.func.isRequired,
-  getRandomSpell: PropTypes.func.isRequired,
-  onError: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired,
-  error: PropTypes.bool.isRequired,
-  randomSpell: PropTypes.func.isRequired,
-};
 
 const SpellView = ({ spell }) => {
   const {
@@ -99,6 +108,6 @@ const SpellView = ({ spell }) => {
 
 SpellView.propTypes = {
   spell: PropTypes.objectOf(
-    PropTypes.oneOf(PropTypes.string, PropTypes.number)
+    PropTypes.oneOfType([PropTypes.string, PropTypes.number])
   ).isRequired,
 };

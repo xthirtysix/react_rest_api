@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 import Spinner from "../Spinner";
+import ErrorMessage from "../ErrorMessage";
 
 const withData = View => {
   class Sub extends Component {
@@ -9,27 +10,39 @@ const withData = View => {
       super();
       this.state = {
         itemList: [],
+        loading: true,
+        error: false,
       };
     }
 
     componentDidMount() {
       const { getData } = this.props;
 
-      getData().then(itemList => {
-        this.setState({
-          itemList,
+      getData()
+        .then(itemList => {
+          this.setState({
+            itemList,
+            loading: false,
+          });
+        })
+        .catch(() => {
+          this.setState({
+            loading: false,
+            error: true,
+          });
         });
-      });
     }
 
     render() {
-      const { itemList } = this.state;
+      const { itemList, loading, error } = this.state;
       const { currentValue, onChangeItem } = this.props;
 
-      const data = itemList;
-
-      if (!data) {
+      if (loading) {
         return <Spinner />;
+      }
+
+      if (error) {
+        return <ErrorMessage />;
       }
 
       return (
@@ -37,7 +50,7 @@ const withData = View => {
           {...this.props}
           currentValue={currentValue}
           onChangeItem={onChangeItem}
-          data={data}
+          data={itemList}
         />
       );
     }

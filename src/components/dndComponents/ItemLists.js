@@ -1,6 +1,10 @@
 import List from "../List";
-import { withData, withDndService } from "../HocHelpers";
-import withChildFunction from "./withChildFunction";
+import {
+  withData,
+  withDndService,
+  withChildFunction,
+  compose,
+} from "../HocHelpers";
 
 const renderRaceName = ({ name, subraces }) => {
   return `${name} ${subraces !== "none" ? `(${subraces})` : ""}`;
@@ -22,13 +26,16 @@ const mapClassMethodsToProps = dndApi => {
   };
 };
 
-const RaceList = withDndService(
-  withData(withChildFunction(List, renderRaceName)),
-  mapRaceMethodsToProps
-);
-const ClassList = withDndService(
-  withData(withChildFunction(List, renderClassName)),
-  mapClassMethodsToProps
-);
+const RaceList = compose(
+  withDndService(mapRaceMethodsToProps),
+  withData,
+  withChildFunction(renderRaceName)
+)(List);
+
+const ClassList = compose(
+  withDndService(mapClassMethodsToProps),
+  withData,
+  withChildFunction(renderClassName)
+)(List);
 
 export { RaceList, ClassList };

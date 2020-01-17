@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ErrorBoundry from "../ErrorBoundry";
-import { RaceList, RaceDetailes } from "../dndComponents";
+import { RaceList, RaceDetailes } from "../DndComponents";
 
 export default class RacePage extends Component {
   constructor() {

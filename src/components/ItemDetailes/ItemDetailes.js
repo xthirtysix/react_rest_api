@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import ErrorButton from "../ErrorButton";
 import "./ItemDetailes.css";
 
 const ItemDetailes = props => {
@@ -28,7 +27,6 @@ const ItemDetailes = props => {
           <div>{detailes}</div>
         </div>
       </div>
-      <ErrorButton />
     </section>
   );
 };

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ErrorBoundry from "../ErrorBoundry";
-import { ClassList, ClassDetailes } from "../dndComponents";
+import { ClassList, ClassDetailes } from "../DndComponents";
 
 export default class ClassPage extends Component {
   constructor() {
