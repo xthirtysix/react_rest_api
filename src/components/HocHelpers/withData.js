@@ -35,7 +35,7 @@ const withData = View => {
 
     render() {
       const { itemList, loading, error } = this.state;
-      const { currentValue, onChangeItem } = this.props;
+      const { currentValue, onClick } = this.props;
 
       if (loading) {
         return <Spinner />;
@@ -49,7 +49,7 @@ const withData = View => {
         <View
           {...this.props}
           currentValue={currentValue}
-          onChangeItem={onChangeItem}
+          onClick={onClick}
           data={itemList}
         />
       );
@@ -58,7 +58,7 @@ const withData = View => {
   Sub.propTypes = {
     getData: PropTypes.func.isRequired,
     currentValue: PropTypes.string.isRequired,
-    onChangeItem: PropTypes.func.isRequired,
+    onClick: PropTypes.func.isRequired,
   };
 
   return Sub;

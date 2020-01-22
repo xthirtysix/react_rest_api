@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Row from "../Row";
 import ErrorBoundry from "../ErrorBoundry";
 import { RaceList, RaceDetailes } from "../DndComponents";
 
@@ -10,7 +11,8 @@ export default class RacePage extends Component {
     };
   }
 
-  onChangeRace = evt => {
+  onClickRace = evt => {
+    evt.preventDefault();
     this.setState({
       currentRace: evt.target.value,
     });
@@ -21,13 +23,15 @@ export default class RacePage extends Component {
 
     return (
       <ErrorBoundry>
-        <div className="container">
-          <RaceList
-            currentValue={currentRace}
-            onChangeItem={this.onChangeRace}
-          />
-          <RaceDetailes currentValue={currentRace} />
-        </div>
+        <Row
+          left={
+            <RaceList
+              currentValue={currentRace}
+              onClick={this.onClickRace}
+            />
+          }
+          right={<RaceDetailes currentValue={currentRace} />}
+        />
       </ErrorBoundry>
     );
   }

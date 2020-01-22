@@ -5,7 +5,7 @@ const List = props => {
   const {
     data,
     currentValue,
-    onChangeItem,
+    onClick,
     children: renderLabel,
   } = props;
 
@@ -14,28 +14,31 @@ const List = props => {
     const label = renderLabel(item);
 
     return (
-      <option key={name} value={name}>
+      <button
+        key={name}
+        className={`list-group-item ${
+          currentValue === name ? "active" : ""
+        }`}
+        type="button"
+        onClick={onClick}
+        value={name}
+      >
         {label}
-      </option>
+      </button>
     );
   });
 
   return (
-    <select
-      className="custom-select mb-1"
-      value={currentValue}
-      onChange={onChangeItem}
-      onBlur={onChangeItem}
-    >
+    <div className="list-group mb-1" value={currentValue}>
       {items}
-    </select>
+    </div>
   );
 };
 
 List.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   currentValue: PropTypes.string.isRequired,
-  onChangeItem: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
   children: PropTypes.func.isRequired,
 };
 

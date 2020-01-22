@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Row from "../Row";
 import ErrorBoundry from "../ErrorBoundry";
 import { ClassList, ClassDetailes } from "../DndComponents";
 
@@ -10,7 +11,8 @@ export default class ClassPage extends Component {
     };
   }
 
-  onChangeClass = evt => {
+  onClickClass = evt => {
+    evt.preventDefault();
     this.setState({
       currentClass: evt.target.value,
     });
@@ -21,13 +23,15 @@ export default class ClassPage extends Component {
 
     return (
       <ErrorBoundry>
-        <div className="container">
-          <ClassList
-            currentValue={currentClass}
-            onChangeItem={this.onChangeClass}
-          />
-          <ClassDetailes currentValue={currentClass} />
-        </div>
+        <Row
+          left={
+            <ClassList
+              currentValue={currentClass}
+              onClick={this.onClickClass}
+            />
+          }
+          right={<ClassDetailes currentValue={currentClass} />}
+        />
       </ErrorBoundry>
     );
   }
